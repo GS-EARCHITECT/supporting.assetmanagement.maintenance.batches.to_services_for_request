@@ -77,18 +77,17 @@ public class AssetMaintenanceClassMaster_Controller {
 		assetMaintClassMasterAdminServ.delSelectClasses(assetMaintenanceClassMasterPKs);
 	}
 	
-	@DeleteMapping("/delSelectAssetMaintenanceClassesByParties")
-	public void deleteSelectAssetMaintenanceClassesByParties(@RequestBody ArrayList<Long> ids)
-	{
-		assetMaintClassMasterAdminServ.delSelectClassesByParties(ids);
-	}
-
 	@DeleteMapping("/delSelectAssetMaintenanceClassesByResources")
 	public void deleteSelectAssetMaintenanceClassesByResources(@RequestBody ArrayList<Long> ids)
 	{
 		assetMaintClassMasterAdminServ.delSelectClassesByResources(ids);
 	}
-
+	
+	@DeleteMapping("/delSelectAssetMaintenanceClassesByParties")
+	public void deleteSelectAssetMaintenanceClassesByParties(@RequestBody ArrayList<Long> ids)
+	{
+		assetMaintClassMasterAdminServ.delSelectClassesByParties(ids);
+	}
 	
 	@DeleteMapping("/delAllAssetMaintenanceClass")
 	public void deleteAllAssetMaintenanceClassClasss() {

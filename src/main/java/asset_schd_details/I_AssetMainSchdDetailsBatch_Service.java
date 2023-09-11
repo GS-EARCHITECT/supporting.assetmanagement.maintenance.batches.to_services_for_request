@@ -1,4 +1,4 @@
-package asset_schd_details.service;
+package asset_schd_details;
 
 import java.util.concurrent.CompletableFuture;
 

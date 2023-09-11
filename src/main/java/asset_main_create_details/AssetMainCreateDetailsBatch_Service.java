@@ -1,0 +1,70 @@
+package asset_main_create_details;
+
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.Executor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import common.repo.AssetMainSchdDetailsCUD_Repo;
+import common.repo.AssetMainSchdDetailsRead_Repo;
+import common.repo.AssetMainSchdDetails_Repo;
+import common.repo.AssetMainSchdMaster_Repo;
+import common.repo.AssetMaster_Repo;
+import common.repo.AssetResServPartyDetails_Repo;
+import common.master.*;
+
+@Service("assetMainCreateDetailsBatchServ")
+@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
+public class AssetMainCreateDetailsBatch_Service implements I_AssetMainCreateDetailsBatch_Service {
+	private static final Logger logger = LoggerFactory.getLogger(AssetMainCreateDetailsBatch_Service.class);
+
+	@Autowired
+	private AssetMainSchdDetailsRead_Repo assetMainSchdDetailsReadRepo;
+
+	@Autowired
+	private AssetMainSchdDetailsCUD_Repo assetMainSchdDetailsCUDRepo;
+
+	@Autowired
+	private AssetMainSchdDetails_Repo assetMainSchdDetailsRepo;
+
+	@Autowired
+	private Executor asyncExecutor;
+
+	@Scheduled(fixedRate = 3000)
+	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
+	public CompletableFuture<Void> runService() {
+		CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
+			// Get All Assets Not Scheduled
+			CopyOnWriteArrayList<AssetMainSchdDetail> assetMainSchdDetails = assetMainSchdDetailsReadRepo
+					.getAssetSchdDetailsNotDone();
+			AssetMaintenanceSchdDetail assetMaintenanceSchdDetail = null;
+
+			for (int i = 0; i < assetMainSchdDetails.size(); i++) {
+				assetMaintenanceSchdDetail = new AssetMaintenanceSchdDetail();
+				AssetMainSchdDetailPK assetMainSchdDetailPK = new AssetMainSchdDetailPK();
+				assetMainSchdDetailPK.setAssetSeqNo(assetMainSchdDetails.get(i).getId().getAssetSeqNo());
+				assetMainSchdDetailPK.setRessrvprdSeqNo(assetMainSchdDetails.get(i).getId().getRessrvprdSeqNo());
+				assetMainSchdDetailPK.setRuleSeqNo(assetMainSchdDetails.get(i).getId().getRuleSeqNo());
+				assetMaintenanceSchdDetail = new AssetMaintenanceSchdDetail();
+				assetMaintenanceSchdDetail.setDoneflag('N');
+				assetMaintenanceSchdDetail.setOkflag('Y');
+				assetMaintenanceSchdDetail.setRessrvprdSeqNo(assetMainSchdDetails.get(i).getId().getRessrvprdSeqNo());
+				assetMaintenanceSchdDetail.setRuleSeqNo(assetMainSchdDetails.get(i).getId().getRuleSeqNo());
+				assetMaintenanceSchdDetail.setScheduleId("");
+				assetMaintenanceSchdDetail.setWipflag('N');
+				assetMainSchdDetailsCUDRepo.setAssetDone(assetMainSchdDetails.get(i).getId().getAssetSeqNo());
+				assetMainSchdDetailsRepo.save(assetMaintenanceSchdDetail);
+			}
+
+			return;
+		}, asyncExecutor);
+		return future;
+	}
+
+}

@@ -1,4 +1,4 @@
-package resservprod.model.repo;
+package common.repo;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;

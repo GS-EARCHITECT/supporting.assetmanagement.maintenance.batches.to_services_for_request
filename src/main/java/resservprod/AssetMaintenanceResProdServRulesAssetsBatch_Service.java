@@ -1,4 +1,4 @@
-package resservprod.service;
+package resservprod;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CopyOnWriteArrayList;

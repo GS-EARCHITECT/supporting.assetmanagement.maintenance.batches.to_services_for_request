@@ -1,4 +1,4 @@
-package asset_schd_details.model.repo;
+package common.repo;
 
 import java.util.ArrayList;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,26 +13,29 @@ public interface AssetMainSchdDetailsCUD_Repo extends JpaRepository<AssetMainSch
 {
 	
 	@Query(value = "update ASSET_MAIN_SCHD_DETAILS set okflag = 'Y' where b.RESSRVPRD_SEQ_NO = :id",nativeQuery = true) 
-	void setAssetOK();
+	void setAssetOK(@Param("id") Long id);
 	
+	@Query(value = "update ASSET_MAIN_SCHD_DETAILS set okflag = 'N' where b.RESSRVPRD_SEQ_NO = :id",nativeQuery = true) 
+	void setAssetNotOK(@Param("id") Long id);
+		
 	@Query(value = "update ASSET_MAIN_SCHD_DETAILS set okflag = 'Y' where b.RESSRVPRD_SEQ_NO in :ids",nativeQuery = true) 
 	void setAssetsOK(@Param("ids") ArrayList<Long> ids);
 
+	@Query(value = "update ASSET_MAIN_SCHD_DETAILS set okflag = 'N' where b.RESSRVPRD_SEQ_NO in :ids",nativeQuery = true) 
+	void setAssetsNotOK(@Param("ids") ArrayList<Long> ids);
+	
 	@Query(value = "update ASSET_MAIN_SCHD_DETAILS set doneflag = 'Y' where b.RESSRVPRD_SEQ_NO = :id",nativeQuery = true) 
-	void setAssetDone();
+	void setAssetDone(@Param("id") Long id);
+	
+	@Query(value = "update ASSET_MAIN_SCHD_DETAILS set doneflag = 'N' where b.RESSRVPRD_SEQ_NO = :id",nativeQuery = true) 
+	void setAssetNotDone(@Param("id") Long id);
 	
 	@Query(value = "update ASSET_MAIN_SCHD_DETAILS set doneflag = 'Y' where b.RESSRVPRD_SEQ_NO in :ids",nativeQuery = true) 
 	void setAssetsDone(@Param("ids") ArrayList<Long> ids);
 	
-	@Query(value = "delete FROM ASSET_MAIN_SCHD_DETAILS where upper(trim(doneflag))='Y'",nativeQuery = true) 
-	void setAssetsDone();
-
-	@Query(value = "delete FROM ASSET_MAIN_SCHD_DETAILS where upper(trim(okflag))<> 'Y'",nativeQuery = true) 
-	void setAssetsNotOK();
-
-	@Query(value = "delete FROM ASSET_MAIN_SCHD_DETAILS where upper(trim(doneflag))<> 'Y'",nativeQuery = true) 
-	void setAssetsNotDone();
-
+	@Query(value = "update ASSET_MAIN_SCHD_DETAILS set doneflag = 'N' where b.RESSRVPRD_SEQ_NO in :ids",nativeQuery = true) 
+	void setAssetsNotDone(@Param("ids") ArrayList<Long> ids);
+	
 	@Query(value="delete from ASSET_MAIN_SCHD_DETAILS b  where b.RESSRVPRD_SEQ_NO in :ids ",nativeQuery = true)
 	void delSelectSchdDetailsByResSrvProds(@Param("ids") ArrayList<Long> ids);
 

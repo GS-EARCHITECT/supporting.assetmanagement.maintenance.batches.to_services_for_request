@@ -1,4 +1,4 @@
-package asset_schd_details.service;
+package asset_schd_details;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -11,8 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import asset_schd_details.model.repo.AssetMainSchdDetailsCUD_Repo;
-import asset_schd_details.model.repo.AssetMainSchdDetailsRead_Repo;
+
+import common.repo.AssetMainSchdDetailsCUD_Repo;
+import common.repo.AssetMainSchdDetailsRead_Repo;
 import common.repo.AssetMainSchdMaster_Repo;
 import common.repo.AssetMaster_Repo;
 import common.repo.AssetResServPartyDetails_Repo;
@@ -103,9 +104,14 @@ public class AssetMainSchdDetailsBatch_Service implements I_AssetMainSchdDetails
 		
 		if (assetMainSchdDetailsReadRepo.getCountOfSchdDetailsByResSrvProds(resPrdSeqNo, aSeqNo, ruleSeqNo) > 0) 
 		{
+		logger.info("found");
 		found = true;
 		}
-		
+		else
+		{
+		logger.info("Not found");	
+		}
+
 		return found;
 	}
 

@@ -1,6 +1,7 @@
 package common.repo;
 
-import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -19,10 +20,10 @@ public interface AssetMainSchdDetailsCUD_Repo extends JpaRepository<AssetMainSch
 	void setAssetNotOK(@Param("aid") Long aid, @Param("rid") Long rid, @Param("sid") Long sid);
 		
 	@Query(value = "update ASSET_MAIN_SCHD_DETAILS set okflag = 'Y' where RESSRVPRD_SEQ_NO in :ids",nativeQuery = true) 
-	void setAssetsOK(@Param("ids") ArrayList<Long> ids);
+	void setAssetsOK(@Param("ids") CopyOnWriteArrayList<Long> ids);
 
 	@Query(value = "update ASSET_MAIN_SCHD_DETAILS set okflag = 'N' where RESSRVPRD_SEQ_NO in :ids",nativeQuery = true) 
-	void setAssetsNotOK(@Param("ids") ArrayList<Long> ids);
+	void setAssetsNotOK(@Param("ids") CopyOnWriteArrayList<Long> ids);
 	
 	@Query(value = "update ASSET_MAIN_SCHD_DETAILS set doneflag = 'Y' where ((RESSRVPRD_SEQ_NO = :rid) and (asset_SEQ_NO = :aid) and (rule_SEQ_NO = :sid))",nativeQuery = true) 
 	void setAssetDone(@Param("aid") Long aid, @Param("rid") Long rid, @Param("sid") Long sid);
@@ -31,19 +32,19 @@ public interface AssetMainSchdDetailsCUD_Repo extends JpaRepository<AssetMainSch
 	void setAssetNotDone(@Param("aid") Long aid, @Param("rid") Long rid, @Param("sid") Long sid);
 	
 	@Query(value = "update ASSET_MAIN_SCHD_DETAILS set doneflag = 'Y' where RESSRVPRD_SEQ_NO in :ids",nativeQuery = true) 
-	void setAssetsDone(@Param("ids") ArrayList<Long> ids);
+	void setAssetsDone(@Param("ids") CopyOnWriteArrayList<Long> ids);
 	
 	@Query(value = "update ASSET_MAIN_SCHD_DETAILS set doneflag = 'N' where RESSRVPRD_SEQ_NO in :ids",nativeQuery = true) 
-	void setAssetsNotDone(@Param("ids") ArrayList<Long> ids);
+	void setAssetsNotDone(@Param("ids") CopyOnWriteArrayList<Long> ids);
 	
 	@Query(value="delete from ASSET_MAIN_SCHD_DETAILS b  where RESSRVPRD_SEQ_NO in :ids ",nativeQuery = true)
-	void delSelectSchdDetailsByResSrvProds(@Param("ids") ArrayList<Long> ids);
+	void delSelectSchdDetailsByResSrvProds(@Param("ids") CopyOnWriteArrayList<Long> ids);
 
 	@Query(value="delete from ASSET_MAIN_SCHD_DETAILS b  where RESSRVPRD_SEQ_NO = :id ",nativeQuery = true)
 	void delSelectSchdDetailsByResSrvProd(@Param("id") Long id);
 	
 	@Query(value="delete from ASSET_MAIN_SCHD_DETAILS b where asset_SEQ_NO in :ids ",nativeQuery = true)
-	void delSelectSchdDetailsByAssets(@Param("ids") ArrayList<Long> ids);
+	void delSelectSchdDetailsByAssets(@Param("ids") CopyOnWriteArrayList<Long> ids);
 	
 	@Query(value="delete from ASSET_MAIN_SCHD_DETAILS b where asset_SEQ_NO = :id ",nativeQuery = true)
 	void delSelectSchdDetailsByAsset(@Param("id") Long id);
@@ -61,13 +62,13 @@ public interface AssetMainSchdDetailsCUD_Repo extends JpaRepository<AssetMainSch
 	void delAssetSchdDetailsNotDone();
 
 	@Query(value="delete from ASSET_MAIN_SCHD_DETAILS b  where ASSET_MAIN_SEQ_NO in :ids ",nativeQuery = true)
-	void delSelectSchedulesByMaintenance(@Param("ids") ArrayList<Long> ids);
+	void delSelectSchedulesByMaintenance(@Param("ids") CopyOnWriteArrayList<Long> ids);
 	
 	@Query(value="delete from ASSET_MAIN_SCHD_DETAILS b  where upper(trim(schedule_id)) in :ids",nativeQuery = true)
-	void delSelectSchedulesByScheduleIds(@Param("ids") ArrayList<String> ids);
+	void delSelectSchedulesByScheduleIds(@Param("ids") CopyOnWriteArrayList<String> ids);
 	
 	@Query(value="delete from ASSET_MAIN_SCHD_DETAILS b  where RESSRVPRD_SEQ_NO in :ids",nativeQuery = true)
-	void delSelectSchedulesByResSrvProds(@Param("ids") ArrayList<Long> ids);
+	void delSelectSchedulesByResSrvProds(@Param("ids") CopyOnWriteArrayList<Long> ids);
 
 	@Query(value = "delete FROM ASSET_MAIN_SCHD_DETAILS where upper(trim(okflag))='Y'",nativeQuery = true) 
 	void delAssetsOK();

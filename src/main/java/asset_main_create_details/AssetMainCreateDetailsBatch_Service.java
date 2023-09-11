@@ -19,7 +19,7 @@ import common.master.*;
 @Service("assetMainCreateDetailsBatchServ")
 @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
 public class AssetMainCreateDetailsBatch_Service implements I_AssetMainCreateDetailsBatch_Service {
-	private static final Logger logger = LoggerFactory.getLogger(AssetMainCreateDetailsBatch_Service.class);
+//	private static final Logger logger = LoggerFactory.getLogger(AssetMainCreateDetailsBatch_Service.class);
 
 	@Autowired
 	private AssetMainSchdDetailsRead_Repo assetMainSchdDetailsReadRepo;
@@ -44,7 +44,6 @@ public class AssetMainCreateDetailsBatch_Service implements I_AssetMainCreateDet
 
 			for (int i = 0; i < assetMainSchdDetails.size(); i++) 
 			{
-				logger.info("- Trying To Save Maintenance Schedule -");
 				assetMaintenanceSchdDetail = new AssetMaintenanceSchdDetail();
 				assetMainSchdDetailPK = new AssetMainSchdDetailPK();
 				assetMainSchdDetailPK.setAssetSeqNo(assetMainSchdDetails.get(i).getId().getAssetSeqNo());
@@ -59,8 +58,6 @@ public class AssetMainCreateDetailsBatch_Service implements I_AssetMainCreateDet
 				assetMaintenanceSchdDetail.setWipflag('N');
 				assetMaintenanceSchdDetail = assetMainSchdDetailsRepo.save(assetMaintenanceSchdDetail);
 				assetMainSchdDetailsCUDRepo.setAssetDone(assetMainSchdDetails.get(i).getId().getAssetSeqNo(),assetMainSchdDetails.get(i).getId().getRessrvprdSeqNo(),assetMainSchdDetails.get(i).getId().getRuleSeqNo());
-				logger.info("Maintenance Schedule Seq No Is :"+assetMaintenanceSchdDetail.getScheduleSeqNo());
-				logger.info("- Added Maintenance Schedule -");
 			}
 
 			return;

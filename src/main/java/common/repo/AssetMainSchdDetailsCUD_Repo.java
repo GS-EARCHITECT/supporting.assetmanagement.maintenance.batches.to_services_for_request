@@ -12,40 +12,40 @@ import common.master.AssetMainSchdDetailPK;
 public interface AssetMainSchdDetailsCUD_Repo extends JpaRepository<AssetMainSchdDetail, AssetMainSchdDetailPK> 
 {
 	
-	@Query(value = "update ASSET_MAIN_SCHD_DETAILS set okflag = 'Y' where b.RESSRVPRD_SEQ_NO = :id",nativeQuery = true) 
-	void setAssetOK(@Param("id") Long id);
+	@Query(value = "update ASSET_MAIN_SCHD_DETAILS set okflag = 'Y' where ((RESSRVPRD_SEQ_NO = :rid) and (asset_SEQ_NO = :aid) and (rule_SEQ_NO = :sid))",nativeQuery = true) 
+	void setAssetOK(@Param("aid") Long aid, @Param("rid") Long rid, @Param("sid") Long sid);
 	
-	@Query(value = "update ASSET_MAIN_SCHD_DETAILS set okflag = 'N' where b.RESSRVPRD_SEQ_NO = :id",nativeQuery = true) 
-	void setAssetNotOK(@Param("id") Long id);
+	@Query(value = "update ASSET_MAIN_SCHD_DETAILS set okflag = 'N' where ((RESSRVPRD_SEQ_NO = :rid) and (asset_SEQ_NO = :aid) and (rule_SEQ_NO = :sid))",nativeQuery = true) 
+	void setAssetNotOK(@Param("aid") Long aid, @Param("rid") Long rid, @Param("sid") Long sid);
 		
-	@Query(value = "update ASSET_MAIN_SCHD_DETAILS set okflag = 'Y' where b.RESSRVPRD_SEQ_NO in :ids",nativeQuery = true) 
+	@Query(value = "update ASSET_MAIN_SCHD_DETAILS set okflag = 'Y' where RESSRVPRD_SEQ_NO in :ids",nativeQuery = true) 
 	void setAssetsOK(@Param("ids") ArrayList<Long> ids);
 
-	@Query(value = "update ASSET_MAIN_SCHD_DETAILS set okflag = 'N' where b.RESSRVPRD_SEQ_NO in :ids",nativeQuery = true) 
+	@Query(value = "update ASSET_MAIN_SCHD_DETAILS set okflag = 'N' where RESSRVPRD_SEQ_NO in :ids",nativeQuery = true) 
 	void setAssetsNotOK(@Param("ids") ArrayList<Long> ids);
 	
-	@Query(value = "update ASSET_MAIN_SCHD_DETAILS set doneflag = 'Y' where b.RESSRVPRD_SEQ_NO = :id",nativeQuery = true) 
-	void setAssetDone(@Param("id") Long id);
+	@Query(value = "update ASSET_MAIN_SCHD_DETAILS set doneflag = 'Y' where ((RESSRVPRD_SEQ_NO = :rid) and (asset_SEQ_NO = :aid) and (rule_SEQ_NO = :sid))",nativeQuery = true) 
+	void setAssetDone(@Param("aid") Long aid, @Param("rid") Long rid, @Param("sid") Long sid);
+		
+	@Query(value = "update ASSET_MAIN_SCHD_DETAILS set doneflag = 'N' where ((RESSRVPRD_SEQ_NO = :rid) and (asset_SEQ_NO = :aid) and (rule_SEQ_NO = :sid))",nativeQuery = true) 
+	void setAssetNotDone(@Param("aid") Long aid, @Param("rid") Long rid, @Param("sid") Long sid);
 	
-	@Query(value = "update ASSET_MAIN_SCHD_DETAILS set doneflag = 'N' where b.RESSRVPRD_SEQ_NO = :id",nativeQuery = true) 
-	void setAssetNotDone(@Param("id") Long id);
-	
-	@Query(value = "update ASSET_MAIN_SCHD_DETAILS set doneflag = 'Y' where b.RESSRVPRD_SEQ_NO in :ids",nativeQuery = true) 
+	@Query(value = "update ASSET_MAIN_SCHD_DETAILS set doneflag = 'Y' where RESSRVPRD_SEQ_NO in :ids",nativeQuery = true) 
 	void setAssetsDone(@Param("ids") ArrayList<Long> ids);
 	
-	@Query(value = "update ASSET_MAIN_SCHD_DETAILS set doneflag = 'N' where b.RESSRVPRD_SEQ_NO in :ids",nativeQuery = true) 
+	@Query(value = "update ASSET_MAIN_SCHD_DETAILS set doneflag = 'N' where RESSRVPRD_SEQ_NO in :ids",nativeQuery = true) 
 	void setAssetsNotDone(@Param("ids") ArrayList<Long> ids);
 	
-	@Query(value="delete from ASSET_MAIN_SCHD_DETAILS b  where b.RESSRVPRD_SEQ_NO in :ids ",nativeQuery = true)
+	@Query(value="delete from ASSET_MAIN_SCHD_DETAILS b  where RESSRVPRD_SEQ_NO in :ids ",nativeQuery = true)
 	void delSelectSchdDetailsByResSrvProds(@Param("ids") ArrayList<Long> ids);
 
-	@Query(value="delete from ASSET_MAIN_SCHD_DETAILS b  where b.RESSRVPRD_SEQ_NO = :id ",nativeQuery = true)
+	@Query(value="delete from ASSET_MAIN_SCHD_DETAILS b  where RESSRVPRD_SEQ_NO = :id ",nativeQuery = true)
 	void delSelectSchdDetailsByResSrvProd(@Param("id") Long id);
 	
-	@Query(value="delete from ASSET_MAIN_SCHD_DETAILS b where b.asset_SEQ_NO in :ids ",nativeQuery = true)
+	@Query(value="delete from ASSET_MAIN_SCHD_DETAILS b where asset_SEQ_NO in :ids ",nativeQuery = true)
 	void delSelectSchdDetailsByAssets(@Param("ids") ArrayList<Long> ids);
 	
-	@Query(value="delete from ASSET_MAIN_SCHD_DETAILS b where b.asset_SEQ_NO = :id ",nativeQuery = true)
+	@Query(value="delete from ASSET_MAIN_SCHD_DETAILS b where asset_SEQ_NO = :id ",nativeQuery = true)
 	void delSelectSchdDetailsByAsset(@Param("id") Long id);
 	
 	@Query(value = "delete from ASSET_MAIN_SCHD_DETAILS where upper(trim(okflag))='Y' ORDER BY RESSRVPRD_SEQ_NO",nativeQuery = true) 
@@ -60,13 +60,13 @@ public interface AssetMainSchdDetailsCUD_Repo extends JpaRepository<AssetMainSch
 	@Query(value = "delete from ASSET_MAIN_SCHD_DETAILS where upper(trim(doneflag))<> 'Y' ORDER BY RESSRVPRD_SEQ_NO",nativeQuery = true) 
 	void delAssetSchdDetailsNotDone();
 
-	@Query(value="delete from ASSET_MAIN_SCHD_DETAILS b  where b.ASSET_MAIN_SEQ_NO in :ids ",nativeQuery = true)
+	@Query(value="delete from ASSET_MAIN_SCHD_DETAILS b  where ASSET_MAIN_SEQ_NO in :ids ",nativeQuery = true)
 	void delSelectSchedulesByMaintenance(@Param("ids") ArrayList<Long> ids);
 	
-	@Query(value="delete from ASSET_MAIN_SCHD_DETAILS b  where upper(trim(b.schedule_id)) in :ids",nativeQuery = true)
+	@Query(value="delete from ASSET_MAIN_SCHD_DETAILS b  where upper(trim(schedule_id)) in :ids",nativeQuery = true)
 	void delSelectSchedulesByScheduleIds(@Param("ids") ArrayList<String> ids);
 	
-	@Query(value="delete from ASSET_MAIN_SCHD_DETAILS b  where b.RESSRVPRD_SEQ_NO in :ids",nativeQuery = true)
+	@Query(value="delete from ASSET_MAIN_SCHD_DETAILS b  where RESSRVPRD_SEQ_NO in :ids",nativeQuery = true)
 	void delSelectSchedulesByResSrvProds(@Param("ids") ArrayList<Long> ids);
 
 	@Query(value = "delete FROM ASSET_MAIN_SCHD_DETAILS where upper(trim(okflag))='Y'",nativeQuery = true) 

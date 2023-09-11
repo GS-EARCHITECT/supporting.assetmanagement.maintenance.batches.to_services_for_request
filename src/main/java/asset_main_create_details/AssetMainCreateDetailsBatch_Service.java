@@ -14,9 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import common.repo.AssetMainSchdDetailsCUD_Repo;
 import common.repo.AssetMainSchdDetailsRead_Repo;
 import common.repo.AssetMainSchdDetails_Repo;
-import common.repo.AssetMainSchdMaster_Repo;
-import common.repo.AssetMaster_Repo;
-import common.repo.AssetResServPartyDetails_Repo;
 import common.master.*;
 
 @Service("assetMainCreateDetailsBatchServ")
@@ -41,13 +38,15 @@ public class AssetMainCreateDetailsBatch_Service implements I_AssetMainCreateDet
 	public CompletableFuture<Void> runService() {
 		CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
 			// Get All Assets Not Scheduled
-			CopyOnWriteArrayList<AssetMainSchdDetail> assetMainSchdDetails = assetMainSchdDetailsReadRepo
-					.getAssetSchdDetailsNotDone();
+			CopyOnWriteArrayList<AssetMainSchdDetail> assetMainSchdDetails = assetMainSchdDetailsReadRepo.getAssetSchdDetailsNotDone();
 			AssetMaintenanceSchdDetail assetMaintenanceSchdDetail = null;
+			AssetMainSchdDetailPK assetMainSchdDetailPK = null;
 
-			for (int i = 0; i < assetMainSchdDetails.size(); i++) {
+			for (int i = 0; i < assetMainSchdDetails.size(); i++) 
+			{
+				logger.info("- Trying To Save Maintenance Schedule -");
 				assetMaintenanceSchdDetail = new AssetMaintenanceSchdDetail();
-				AssetMainSchdDetailPK assetMainSchdDetailPK = new AssetMainSchdDetailPK();
+				assetMainSchdDetailPK = new AssetMainSchdDetailPK();
 				assetMainSchdDetailPK.setAssetSeqNo(assetMainSchdDetails.get(i).getId().getAssetSeqNo());
 				assetMainSchdDetailPK.setRessrvprdSeqNo(assetMainSchdDetails.get(i).getId().getRessrvprdSeqNo());
 				assetMainSchdDetailPK.setRuleSeqNo(assetMainSchdDetails.get(i).getId().getRuleSeqNo());
@@ -58,8 +57,10 @@ public class AssetMainCreateDetailsBatch_Service implements I_AssetMainCreateDet
 				assetMaintenanceSchdDetail.setRuleSeqNo(assetMainSchdDetails.get(i).getId().getRuleSeqNo());
 				assetMaintenanceSchdDetail.setScheduleId("");
 				assetMaintenanceSchdDetail.setWipflag('N');
-				assetMainSchdDetailsCUDRepo.setAssetDone(assetMainSchdDetails.get(i).getId().getAssetSeqNo());
-				assetMainSchdDetailsRepo.save(assetMaintenanceSchdDetail);
+				assetMaintenanceSchdDetail = assetMainSchdDetailsRepo.save(assetMaintenanceSchdDetail);
+				assetMainSchdDetailsCUDRepo.setAssetDone(assetMainSchdDetails.get(i).getId().getAssetSeqNo(),assetMainSchdDetails.get(i).getId().getRessrvprdSeqNo(),assetMainSchdDetails.get(i).getId().getRuleSeqNo());
+				logger.info("Maintenance Schedule Seq No Is :"+assetMaintenanceSchdDetail.getScheduleSeqNo());
+				logger.info("- Added Maintenance Schedule -");
 			}
 
 			return;

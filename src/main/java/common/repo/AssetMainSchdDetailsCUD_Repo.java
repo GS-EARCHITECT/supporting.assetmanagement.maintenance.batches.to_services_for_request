@@ -12,6 +12,8 @@ import common.master.AssetMainSchdDetailPK;
 @Repository("assetMainSchdDetailsCUDRepo")
 public interface AssetMainSchdDetailsCUD_Repo extends JpaRepository<AssetMainSchdDetail, AssetMainSchdDetailPK> 
 {
+	@Query(value = "update ASSET_MAIN_SCHD_DETAILS set schedule_no = :sno where ((RESSRVPRD_SEQ_NO = :rid) and (asset_SEQ_NO = :aid) and (rule_SEQ_NO = :sid))",nativeQuery = true) 
+	void setScheduleNo(@Param("aid") Long aid, @Param("rid") Long rid, @Param("sid") Long sid, @Param("sno") Long sno);
 	
 	@Query(value = "update ASSET_MAIN_SCHD_DETAILS set okflag = 'Y' where ((RESSRVPRD_SEQ_NO = :rid) and (asset_SEQ_NO = :aid) and (rule_SEQ_NO = :sid))",nativeQuery = true) 
 	void setAssetOK(@Param("aid") Long aid, @Param("rid") Long rid, @Param("sid") Long sid);

@@ -21,6 +21,9 @@ public class AssetMainSchdDetail implements Serializable {
 	@Column(name = "OKFLAG")
 	private Character okflag;
 
+	@Column(name = "SCHEDULE_NO")
+	private Long scheduleNo;
+
 	public AssetMainSchdDetail() {
 	}
 
@@ -48,11 +51,20 @@ public class AssetMainSchdDetail implements Serializable {
 		this.okflag = okflag;
 	}
 
-	public AssetMainSchdDetail(AssetMainSchdDetailPK id, Character doneflag, Character okflag) {
+	public Long getScheduleNo() {
+		return scheduleNo;
+	}
+
+	public void setScheduleNo(Long scheduleNo) {
+		this.scheduleNo = scheduleNo;
+	}
+
+	public AssetMainSchdDetail(AssetMainSchdDetailPK id, Character doneflag, Character okflag, Long scheduleNo) {
 		super();
 		this.id = id;
 		this.doneflag = doneflag;
 		this.okflag = okflag;
+		this.scheduleNo = scheduleNo;
 	}
 
 }

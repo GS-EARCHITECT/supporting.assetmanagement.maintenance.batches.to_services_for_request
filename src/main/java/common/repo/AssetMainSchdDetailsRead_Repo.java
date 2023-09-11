@@ -11,6 +11,10 @@ import common.master.AssetMainSchdDetailPK;
 @Repository("assetMainSchdDetailsReadRepo")
 public interface AssetMainSchdDetailsRead_Repo extends JpaRepository<AssetMainSchdDetail, AssetMainSchdDetailPK> 
 {	
+	
+	@Query(value = "select schedule_no from ASSET_MAIN_SCHD_DETAILS where ((RESSRVPRD_SEQ_NO = :rid) and (asset_SEQ_NO = :aid) and (rule_SEQ_NO = :sid))",nativeQuery = true) 
+	Long getScheduleNo(@Param("aid") Long aid, @Param("rid") Long rid, @Param("sid") Long sid);
+	
 	@Query(value="select coalesce(count(*),0) from ASSET_MAIN_SCHD_DETAILS b  where ((b.RESSRVPRD_SEQ_NO = :rid) and (b.asset_SEQ_NO = :aid) and (b.rule_SEQ_NO = :sid))",nativeQuery = true)
 	Float getCountOfSchdDetailsByResSrvProds(@Param("rid") Long rid, @Param("aid") Long aid, @Param("sid") Long sid);
 	

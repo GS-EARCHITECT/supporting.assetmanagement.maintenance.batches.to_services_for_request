@@ -1,4 +1,4 @@
-package asset_main_create_details;
+package asset_main_schd_create_details;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CopyOnWriteArrayList;

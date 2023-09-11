@@ -1,4 +1,4 @@
-package resservprod;
+package asset_main_schd_dttm_details;
 
 import java.util.concurrent.CompletableFuture;
 

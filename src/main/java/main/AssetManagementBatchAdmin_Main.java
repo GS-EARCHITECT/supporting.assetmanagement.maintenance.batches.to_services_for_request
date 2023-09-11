@@ -15,9 +15,9 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 @SpringBootApplication
 @EnableScheduling
-@EntityScan(basePackages ={"resservprod","asset_schd_details","common"})
-@EnableJpaRepositories(basePackages = {"resservprod","asset_schd_details","common"})
-@ComponentScan({"resservprod","asset_schd_details","common"})
+@EntityScan(basePackages ={"resservprod","asset_schd_details","asset_main_create_details","common"})
+@EnableJpaRepositories(basePackages = {"resservprod","asset_schd_details","asset_main_create_details","common"})
+@ComponentScan({"resservprod","asset_schd_details","asset_main_create_details","common"})
 public class AssetManagementBatchAdmin_Main extends SpringBootServletInitializer  
 {
 	

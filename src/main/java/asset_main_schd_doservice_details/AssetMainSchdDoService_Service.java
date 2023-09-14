@@ -1,30 +1,24 @@
-package asset_main_schd_dttm_details;
+package asset_main_schd_doservice_details;
 
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.Executor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-import common.repo.AssetMainSchdDetails_Repo;
 import common.repo.AssetMainSchdMaster_Repo;
 import common.repo.AssetMaintenanceMaster_Repo;
+import common.repo.AssetMaintenanceSchdDetailsRead_Repo;
 import common.repo.AssetMaster_Repo;
 import common.repo.AssetResServPartyDetails_Repo;
 import common.master.*;
 import common.dto.*;
 
-@Service("assetMaintenanceResProdServRulesAssetsBatchServ")
-@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
-public class AssetMaintenanceResProdServRulesAssetsBatch_Service
-		implements I_AssetMaintenanceResProdServRulesAssetsBatch_Service {
+@Service("assetMaintenanceSchdBatchServ")
+//@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
+public class AssetMainSchdDoService_Service	implements I_AssetMainSchdDoService_Service
+		{
 	private static final Logger logger = LoggerFactory
-			.getLogger(AssetMaintenanceResProdServRulesAssetsBatch_Service.class);
+			.getLogger(AssetMainSchdDoService_Service.class);
 
 	@Autowired
 	private AssetResServPartyDetails_Repo assetResServPartyDetailsRepo;
@@ -36,18 +30,14 @@ public class AssetMaintenanceResProdServRulesAssetsBatch_Service
 	private AssetMaintenanceMaster_Repo assetMaintenanceMasterRepo;
 
 	@Autowired
-	private AssetMainSchdDetails_Repo assetMainSchdDetailsRepo;
+	private AssetMaintenanceSchdDetailsRead_Repo assetMainSchdDetailsReadRepo;
 
 	@Autowired
 	private AssetMaster_Repo assetMasterRepo;
 
-	@Autowired
-	private Executor asyncExecutor;
-
 	//@Scheduled(fixedRate = 3000)
-	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
-	public CompletableFuture<Void> runBatch() {
-		CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
+	//@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
+	public void runBatch() {
 			// For Each Asset - Get All Res Prod Servs
 			CopyOnWriteArrayList<AssetMaster> assetMasters = assetMasterRepo.getAllAssets();
 
@@ -74,7 +64,7 @@ public class AssetMaintenanceResProdServRulesAssetsBatch_Service
 					for (int j = 0; j < assetMaintenanceMasters.size(); j++) 
 					{
 						// For a maintenance record - add Each Rule in schedule masters buffer
-						assetMaintenanceSchdDetails = assetMainSchdDetailsRepo.getSelectSchedulesByMaintenance(assetMaintenanceMasters.get(j).getAssetMaintenanceSeqNo());
+						assetMaintenanceSchdDetails = assetMainSchdDetailsReadRepo.getSelectSchedulesByMaintenance(assetMaintenanceMasters.get(j).getAssetMaintenanceSeqNo());
 						if (assetMaintenanceSchdDetails != null && assetMaintenanceSchdDetails.size() > 0) 
 						{
 							for (int k = 0; k < assetMaintenanceSchdDetails.size(); k++) 
@@ -101,9 +91,7 @@ public class AssetMaintenanceResProdServRulesAssetsBatch_Service
 				}
 				this.processBatch(globalAssetMainSchdMaster_DTOs);
 			}
-			return;
-		}, asyncExecutor);
-		return future;
+		return ;
 	}
 
 	public synchronized boolean checkRuleForProdServInSchedules(CopyOnWriteArrayList<AssetMainSchdMaster_DTO> aDetails,

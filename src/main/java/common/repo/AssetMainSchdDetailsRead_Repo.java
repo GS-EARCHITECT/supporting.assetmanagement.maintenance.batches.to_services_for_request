@@ -42,5 +42,11 @@ public interface AssetMainSchdDetailsRead_Repo extends JpaRepository<AssetMainSc
 	@Query(value = "SELECT * FROM ASSET_MAIN_SCHD_DETAILS where upper(trim(doneflag))<> 'Y' ORDER BY RESSRVPRD_SEQ_NO",nativeQuery = true) 
 	CopyOnWriteArrayList<AssetMainSchdDetail> getAssetSchdDetailsNotDone();
 
+	@Query(value = "SELECT * FROM ASSET_MAIN_SCHD_DETAILS where (upper(trim(doneflag))<> 'Y' and (SCHEDULE_NO IS NULL or SCHEDULE_NO <0) ) ORDER BY RESSRVPRD_SEQ_NO",nativeQuery = true) 
+	CopyOnWriteArrayList<AssetMainSchdDetail> getAssetSchdDetailsNotScheduled();
+
+	@Query(value = "SELECT * FROM ASSET_MAIN_SCHD_DETAILS where (upper(trim(okflag)) = 'Y' and (upper(trim(doneflag))<> 'Y') and (SCHEDULE_NO IS NOT NULL or SCHEDULE_NO >0) ) ORDER BY RESSRVPRD_SEQ_NO",nativeQuery = true) 
+	CopyOnWriteArrayList<AssetMainSchdDetail> getAssetSchdDetailsOkScheduled();
+
 } 
 

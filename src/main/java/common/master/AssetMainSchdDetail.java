@@ -24,6 +24,12 @@ public class AssetMainSchdDetail implements Serializable {
 	@Column(name = "SCHEDULE_NO")
 	private Long scheduleNo;
 
+	@Column(name = "FR_TIME")
+	private String frTime;
+
+	@Column(name = "TO_TIME")
+	private String toTime;
+
 	public AssetMainSchdDetail() {
 	}
 
@@ -59,12 +65,31 @@ public class AssetMainSchdDetail implements Serializable {
 		this.scheduleNo = scheduleNo;
 	}
 
-	public AssetMainSchdDetail(AssetMainSchdDetailPK id, Character doneflag, Character okflag, Long scheduleNo) {
+	public String getFrTime() {
+		return frTime;
+	}
+
+	public void setFrTime(String frTime) {
+		this.frTime = frTime;
+	}
+
+	public String getToTime() {
+		return toTime;
+	}
+
+	public void setToTime(String toTime) {
+		this.toTime = toTime;
+	}
+
+	public AssetMainSchdDetail(AssetMainSchdDetailPK id, Character doneflag, Character okflag, Long scheduleNo,
+			String frTime, String toTime) {
 		super();
 		this.id = id;
 		this.doneflag = doneflag;
 		this.okflag = okflag;
 		this.scheduleNo = scheduleNo;
+		this.frTime = frTime;
+		this.toTime = toTime;
 	}
 
 }

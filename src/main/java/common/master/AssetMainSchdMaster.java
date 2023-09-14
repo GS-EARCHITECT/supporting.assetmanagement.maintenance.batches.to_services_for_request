@@ -21,6 +21,12 @@ public class AssetMainSchdMaster implements Serializable {
 	@Column(name = "NO_OF_OCCURENCES")
 	private Integer noOfOccurences;
 
+	@Column(name = "FR_TIME")
+	private String frTime;
+
+	@Column(name = "TO_TIME")
+	private String toTime;
+
 	public AssetMainSchdMaster() {
 	}
 
@@ -48,11 +54,30 @@ public class AssetMainSchdMaster implements Serializable {
 		this.noOfOccurences = noOfOccurences;
 	}
 
-	public AssetMainSchdMaster(AssetMainSchdMasterPK id, Integer lapseDays, Integer noOfOccurences) {
+	public String getFrTime() {
+		return frTime;
+	}
+
+	public void setFrTime(String frTime) {
+		this.frTime = frTime;
+	}
+
+	public String getToTime() {
+		return toTime;
+	}
+
+	public void setToTime(String toTime) {
+		this.toTime = toTime;
+	}
+
+	public AssetMainSchdMaster(AssetMainSchdMasterPK id, Integer lapseDays, Integer noOfOccurences, String frTime,
+			String toTime) {
 		super();
 		this.id = id;
 		this.lapseDays = lapseDays;
 		this.noOfOccurences = noOfOccurences;
+		this.frTime = frTime;
+		this.toTime = toTime;
 	}
 
 }

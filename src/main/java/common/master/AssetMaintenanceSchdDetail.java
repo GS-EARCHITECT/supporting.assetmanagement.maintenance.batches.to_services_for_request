@@ -19,6 +19,9 @@ public class AssetMaintenanceSchdDetail implements Serializable {
 	@Column(name = "SCHEDULE_SEQ_NO")
 	private Long scheduleSeqNo;
 
+	@Column(name = "ASSET_SEQ_NO")
+	private Long assetSeqNo;
+
 	@Column(name = "ASSET_MAINTENANCE_SEQ_NO")
 	private Long assetMaintenanceSeqNo;
 
@@ -37,6 +40,9 @@ public class AssetMaintenanceSchdDetail implements Serializable {
 	@Column(name = "RULE_SEQ_NO")
 	private Long ruleSeqNo;
 
+	@Column(name = "RULE_LINE_SEQ_NO")
+	private Long ruleLineSeqNo;
+
 	@Column(name = "SCHEDULE_ID")
 	private String scheduleId;
 
@@ -47,6 +53,22 @@ public class AssetMaintenanceSchdDetail implements Serializable {
 	private Character wipflag;
 
 	public AssetMaintenanceSchdDetail() {
+	}
+
+	public Long getAssetSeqNo() {
+		return assetSeqNo;
+	}
+
+	public void setAssetSeqNo(Long assetSeqNo) {
+		this.assetSeqNo = assetSeqNo;
+	}
+
+	public Long getRuleLineSeqNo() {
+		return ruleLineSeqNo;
+	}
+
+	public void setRuleLineSeqNo(Long ruleLineSeqNo) {
+		this.ruleLineSeqNo = ruleLineSeqNo;
 	}
 
 	public Long getScheduleSeqNo() {
@@ -134,9 +156,8 @@ public class AssetMaintenanceSchdDetail implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((assetMaintenanceSeqNo == null) ? 0 : assetMaintenanceSeqNo.hashCode());
-		result = prime * result + ((ressrvprdSeqNo == null) ? 0 : ressrvprdSeqNo.hashCode());
+		result = prime * result + ((assetSeqNo == null) ? 0 : assetSeqNo.hashCode());
 		result = prime * result + ((ruleSeqNo == null) ? 0 : ruleSeqNo.hashCode());
-		result = prime * result + ((scheduleSeqNo == null) ? 0 : scheduleSeqNo.hashCode());
 		return result;
 	}
 
@@ -154,35 +175,32 @@ public class AssetMaintenanceSchdDetail implements Serializable {
 				return false;
 		} else if (!assetMaintenanceSeqNo.equals(other.assetMaintenanceSeqNo))
 			return false;
-		if (ressrvprdSeqNo == null) {
-			if (other.ressrvprdSeqNo != null)
+		if (assetSeqNo == null) {
+			if (other.assetSeqNo != null)
 				return false;
-		} else if (!ressrvprdSeqNo.equals(other.ressrvprdSeqNo))
+		} else if (!assetSeqNo.equals(other.assetSeqNo))
 			return false;
 		if (ruleSeqNo == null) {
 			if (other.ruleSeqNo != null)
 				return false;
 		} else if (!ruleSeqNo.equals(other.ruleSeqNo))
 			return false;
-		if (scheduleSeqNo == null) {
-			if (other.scheduleSeqNo != null)
-				return false;
-		} else if (!scheduleSeqNo.equals(other.scheduleSeqNo))
-			return false;
 		return true;
 	}
 
-	public AssetMaintenanceSchdDetail(Long scheduleSeqNo, Long assetMaintenanceSeqNo, Character doneflag,
-			Timestamp frDttm, Character okflag, Long ressrvprdSeqNo, Long ruleSeqNo, String scheduleId,
-			Timestamp toDttm, Character wipflag) {
+	public AssetMaintenanceSchdDetail(Long scheduleSeqNo, Long assetSeqNo, Long assetMaintenanceSeqNo,
+			Character doneflag, Timestamp frDttm, Character okflag, Long ressrvprdSeqNo, Long ruleSeqNo,
+			Long ruleLineSeqNo, String scheduleId, Timestamp toDttm, Character wipflag) {
 		super();
 		this.scheduleSeqNo = scheduleSeqNo;
+		this.assetSeqNo = assetSeqNo;
 		this.assetMaintenanceSeqNo = assetMaintenanceSeqNo;
 		this.doneflag = doneflag;
 		this.frDttm = frDttm;
 		this.okflag = okflag;
 		this.ressrvprdSeqNo = ressrvprdSeqNo;
 		this.ruleSeqNo = ruleSeqNo;
+		this.ruleLineSeqNo = ruleLineSeqNo;
 		this.scheduleId = scheduleId;
 		this.toDttm = toDttm;
 		this.wipflag = wipflag;

@@ -10,25 +10,27 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 @SpringBootApplication
+@EnableKafka
 @EnableScheduling
-@EntityScan(basePackages ={"asset_main_schd_create_details","asset_main_schd_doservice_details","asset_schd_details","asset_main_schd_init_details","common"})
-@EnableJpaRepositories(basePackages = {"asset_main_schd_create_details","asset_main_schd_doservice_details","asset_schd_details","asset_main_schd_init_details","common"})
-@ComponentScan({"asset_main_schd_create_details","asset_main_schd_doservice_details","asset_schd_details","asset_main_schd_init_details","common"})
-public class AssetManagementBatchAdmin_Main extends SpringBootServletInitializer  
+@EntityScan(basePackages ={"asset_main_schd_request","common"})
+@EnableJpaRepositories(basePackages = {"asset_main_schd_request","common"})
+@ComponentScan({"asset_main_schd_request","common"})
+public class AssetManagementServiceRequestAdmin_Main extends SpringBootServletInitializer  
 {
 	
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-		return application.sources(AssetManagementBatchAdmin_Main.class);
+		return application.sources(AssetManagementServiceRequestAdmin_Main.class);
 	}
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		SpringApplication.run(AssetManagementBatchAdmin_Main.class, args);
+		SpringApplication.run(AssetManagementServiceRequestAdmin_Main.class, args);
 	}
 	
 	@Bean(name = "asyncExecutor")
